@@ -1,0 +1,45 @@
+% Schematic overview, not a layer-by-layer implementation.
+% Method: supplied midterm deck, pp. 8, 10--11.
+% Input/output photographs cropped from the supplied overview artwork.
+\begin{tikzpicture}[
+  x=1cm,y=1cm,
+  font=\sffamily\fontsize{10}{13}\selectfont,
+  module/.style={draw=uetblue,line width=0.8pt,fill=white,
+    minimum width=3.90cm,minimum height=2.25cm,text width=3.60cm,
+    align=center,inner sep=0.15cm,text=uetdark},
+  flow/.style={-{Latex[length=2.2mm,width=1.5mm]},
+    draw=uetdark,line width=0.85pt},
+  stage/.style={font=\sffamily\fontsize{10}{12}\selectfont\bfseries,
+    text=uetblue,align=center},
+  image label/.style={font=\sffamily\fontsize{10}{13}\selectfont,
+    text=uetdark,align=center}
+]
+  % Uniform module sizes and balanced connector gaps: 0.75 / 0.8 / 0.75 cm.
+  \node[inner sep=0pt] (input) at (0.95,0)
+    {\includegraphics[width=1.90cm,height=1.76cm]{assets/overview-hazy-input.png}};
+  \node[module] (lfrn) at (4.60,0)
+    {\textbf{\large LFRN}\\[7pt]
+     Low-frequency recovery\\[4pt]
+     {\color{uetgray}Mamba on LL}};
+  \node[module,draw=uetdarkgreen] (den) at (9.30,0)
+    {\textbf{\large DEN}\\[7pt]
+     Detail enhancement\\[4pt]
+     {\color{uetgray}Spatial + frequency}};
+  \node[inner sep=0pt] (output) at (12.95,0)
+    {\includegraphics[width=1.90cm,height=1.76cm]{assets/overview-restored-output.png}};
+
+  \draw[flow] ([xshift=3pt]input.east) -- ([xshift=-3pt]lfrn.west);
+  \draw[flow] ([xshift=3pt]lfrn.east) --
+    node[above=5pt,text=uetdark] {$\widetilde{I}$}
+    ([xshift=-3pt]den.west);
+  \draw[flow] ([xshift=3pt]den.east) -- ([xshift=-3pt]output.west);
+
+  \node[stage,text width=3.90cm] at (4.60,1.75)
+    {Stage 1\\[2pt]Global restoration};
+  \node[stage,text=uetdarkgreen,text width=3.90cm] at (9.30,1.75)
+    {Stage 2\\[2pt]Detail refinement};
+  \node[image label,anchor=base] at (0.95,-1.22) {Hazy input};
+  \node[image label,anchor=base] at (12.95,-1.22) {Restored image};
+  \node[image label,anchor=base] at (0.95,-1.72) {$I_{\mathrm{h}}$};
+  \node[image label,anchor=base] at (12.95,-1.72) {$\widehat{I}$};
+\end{tikzpicture}

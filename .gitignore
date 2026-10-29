@@ -1,0 +1,19 @@
+# TeX auxiliary files
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
