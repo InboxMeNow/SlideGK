@@ -93,8 +93,15 @@
   % Reference: Method families from Midterm slides, p. 4. CNN: convolutional neural network.
 \end{frame}
 
+% 5. User-supplied architecture comparison of two existing approaches.
+\begin{frame}{UDPNet and MB-TaylorFormer}
+  \centering
+  \includegraphics[width=\textwidth,height=6.05cm,keepaspectratio]{assets/Sơ đồ kiến trúc khử sương ảnh.png}
+  % UDPNet: depth-guided dehazing; MB-TaylorFormer: multi-branch efficient Transformer.
+\end{frame}
+
 \section{Problem Statement}
-% 5. Inserted after Existing Dehazing Approaches, following source page 5.
+% 6. Combining strengths, following source page 5.
 \begin{frame}{Combining Strengths}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.74\textwidth}
@@ -115,7 +122,7 @@
 \end{frame}
 
 \section{Motivation \& Key Insight}
-% 6. Original DWT illustration, including its existing English labels.
+% 7. Original DWT illustration, including its existing English labels.
 \begin{frame}{Frequency-Domain Observation}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.66\textwidth}
@@ -138,7 +145,7 @@
 \end{frame}
 
 \section{Proposed Method}
-% 7. Combined method overview and objectives, without repeated module descriptions.
+% 8. Combined method overview and objectives, without repeated module descriptions.
 \begin{frame}{Overall Design and Objectives}
   \centering
   \input{figures/lightwave-overview.tex}
@@ -153,32 +160,59 @@
 \end{frame}
 
 \section{Evaluation}
-% 8. Introduce each metric before presenting the proposed thresholds.
+% 9. Dataset split supplied by the user: train / validation / test.
+\begin{frame}{Dataset}
+  {\large\key{SOTS-ITS / RESIDE ITS}}
+  \vspace{0.20cm}
+  \begin{itemize}
+    \setlength{\itemsep}{0.13cm}
+    \item Synthetic indoor hazy images paired with clean reference images.
+    \item \key{RESIDE ITS:} Indoor Training Set for training and validation.
+    \item \key{SOTS Indoor:} indoor subset of the Synthetic Objective Testing Set.
+  \end{itemize}
+  \vspace{0.30cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.30\textwidth}
+      \statcard[uetblue]{12,990}{Training images}
+    \end{column}
+    \begin{column}{0.30\textwidth}
+      \statcard[uetgreen]{1,000}{Validation images}
+    \end{column}
+    \begin{column}{0.30\textwidth}
+      \statcard[uetcyan]{500}{Test images}
+    \end{column}
+  \end{columns}
+  \vspace{0.25cm}
+  {\small\color{uetgray}Train and validate on RESIDE ITS; evaluate restoration quality on SOTS Indoor.}
+\end{frame}
+
+% 10. Introduce each metric before presenting the proposed thresholds.
 \begin{frame}{Evaluation Metrics}
   \par\vspace{0.14cm}
   {\small\color{uetdark}
   \renewcommand{\arraystretch}{1.55}
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.85cm} >{\raggedright\arraybackslash}p{6.50cm} >{\raggedright\arraybackslash}p{4.80cm}@{}}
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{1.65cm} *{4}{>{\raggedright\arraybackslash}X}@{}}
     \toprule
     \rowcolor{uetaccentbg}
-    \key{Metric} & \key{What it measures} & \key{How to interpret it}\\
+    \key{Metric} & \key{PSNR (dB)} & \key{SSIM} & \key{FPS} & \key{QSS}\\
     \midrule
-    \textbf{PSNR (dB)} & Peak signal-to-noise ratio\newline Pixel accuracy against a clean reference. & Higher values indicate lower pixel error.\\
+    \textbf{Full name} & Peak signal-to-noise ratio & Structural similarity index & Frames per second & Quality-Speed Score\\
     \midrule
-    \textbf{SSIM} & Structural similarity index\newline Compares structure, contrast, and luminance with a clean reference. & Values closer to 1 indicate greater similarity.\\
+    \textbf{What it measures} & Pixel accuracy against a clean reference. & Structure, contrast, and luminance similarity. & Number of images processed per second. & Balance between quality and speed.\newline $\mathrm{QSS}=\dfrac{\mathrm{FPS}}{\mathrm{MSE}}$\\
     \midrule
-    \textbf{FPS} & Frames per second\newline Number of images processed per second. & Higher values indicate faster processing.\\
+    \textbf{How to interpret it} & Higher values indicate lower pixel error. & Values closer to 1 indicate greater similarity. & Higher values indicate faster processing. & Higher values favor faster processing and lower pixel error.\\
     \bottomrule
-  \end{tabular}}\par
+  \end{tabularx}}\par
   \vspace{0.25cm}
-  {\small\color{uetgray}Compare FPS using the same hardware, image resolution, and batch size.}
+  {\scriptsize\color{uetgray}MSE: mean squared error against a clean reference. Use the same image value range for MSE.\par
+  Compare FPS and QSS using the same hardware, image resolution, and batch size.}
   % Metric definitions: scikit-image metrics documentation (PSNR and SSIM).
   % https://scikit-image.org/docs/stable/api/skimage.metrics.html
   % FPS is throughput; the measurement setup must be held constant.
 \end{frame}
 
-% 9. Keep proposal targets clearly separate from the source method.
-\begin{frame}{Further Optimization Targets}
+% 11. Keep proposal targets clearly separate from the source method.
+\begin{frame}{Target}
   {\small\key{Targets on the SOTS dataset}}
   \vspace{0.24cm}
   \begin{columns}[T,onlytextwidth]
@@ -189,7 +223,7 @@
       \statcard[uetgreen]{$\geq 0.95$}{SSIM}
     \end{column}
     \begin{column}{0.30\textwidth}
-      \statcard[uetcyan]{$\geq 20$}{FPS}
+      \statcard[uetcyan]{$> 0.45$}{QSS}
     \end{column}
   \end{columns}
   \vspace{0.30cm}
@@ -199,11 +233,63 @@
     \item Assess latency, parameters, and FLOPs for future edge deployment.
   \end{itemize}
   \vspace{0.10cm}
-  {\scriptsize\color{uetgray}Proposed targets, not reported results. Specify the hardware and image resolution for FPS.}
-  % Reference: Preliminary research proposal, pp. 1--2.
+  {\scriptsize\color{uetgray}Proposed targets, not reported results. For QSS, fix the hardware, image resolution, batch size, and MSE image value range.}
+  % Reference: Preliminary research proposal, pp. 1--2; QSS target supplied by the user.
 \end{frame}
 
-% 10. Closing slide.
+% 12. User-supplied comparison data; ours uses illustrative checkpoint values.
+% QSS is recomputed from each displayed PSNR/FPS pair with MAX = 255.
+\begin{frame}{Checkpoint Results}
+  \vspace{0.12cm}
+  {\fontsize{8pt}{10pt}\selectfont\color{uetdark}
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.65}
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}X r r r r r r@{}}
+    \toprule
+    \rowcolor{uetaccentbg}
+    \key{Method} & \key{PSNR (dB)} & \key{SSIM} & \key{FPS} & \key{QSS} & \key{Params (M)} & \key{FLOPs (G)}\\
+    \midrule
+    DCP & 21.70 & 0.8915 & 7.8008 & 0.01774 & 0 & 0\\
+    CAP & 22.76 & 0.8833 & 4.1056 & 0.01192 & 0 & 0\\
+    GridDehazeNet & 33.21 & 0.9860 & 7.6970 & 0.24788 & 0.958 & 37.422\\
+    MB-TaylorFormerV2 & 35.61 & 0.9873 & 3.6658 & 0.20516 & 7.296 & 186.799\\
+    UDPNet & 37.54 & 0.9919 & 3.0700 & 0.26795 & 13.590 + 97.471 & 246.960 + 380.701\\
+    \midrule
+    \rowcolor{uetgreenbg}
+    \textbf{LightWaveDehaze (ours)*} & \textbf{31.084} & \textbf{0.9691} & \textbf{17.263} & \textbf{0.34075} & \textbf{10.137} & \textbf{49.286}\\
+    \bottomrule
+  \end{tabularx}}\par
+  \vspace{0.20cm}
+  {\small
+  \[
+    \mathrm{QSS}=\frac{\mathrm{FPS}\times 10^{\mathrm{PSNR}/10}}{\mathrm{MAX}^{2}},
+    \qquad \mathrm{MAX}=255
+  \]}
+  \vspace{-0.10cm}
+  {\scriptsize\color{uetgray}* Ours: illustrative checkpoint values, not measured results; SSIM retained from the supplied table.\par
+  QSS is calculated from the displayed PSNR and FPS using the 8-bit image range.}
+\end{frame}
+
+\section{Next Steps}
+% 13. Planned architecture experiment and corresponding hyperparameter tuning.
+\begin{frame}{Next Steps}
+  \begin{block}{1. Experiment with Mamba}
+    Replace Attention with Mamba in the low-frequency recovery block (LFRN)
+    and compare it with the current Attention-based baseline.
+  \end{block}
+  \vspace{0.15cm}
+  \begin{block}{2. Optimize the corresponding hyperparameters}
+    Tune Mamba state size, expansion factor, and block depth, together with
+    training settings such as learning rate, batch size, and weight decay.
+  \end{block}
+  \vspace{0.15cm}
+  \begin{block}{3. Evaluate the quality--speed balance}
+    Compare PSNR, SSIM, FPS, and QSS on the same dataset split and hardware;
+    select the configuration that best meets the target metrics.
+  \end{block}
+\end{frame}
+
+% 14. Closing slide.
 \begin{frame}[c]
   \centering
   {\fontsize{28pt}{34pt}\selectfont\bfseries\color{uetblue}Thank You\par}
