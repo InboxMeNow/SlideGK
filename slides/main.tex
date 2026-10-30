@@ -93,15 +93,22 @@
   % Reference: Method families from Midterm slides, p. 4. CNN: convolutional neural network.
 \end{frame}
 
-% 5. User-supplied architecture comparison of two existing approaches.
-\begin{frame}{UDPNet and MB-TaylorFormer}
+% 5. User-supplied UDPNet diagram, shown separately for readability.
+\begin{frame}{UDPNet}
   \centering
-  \includegraphics[width=\textwidth,height=6.05cm,keepaspectratio]{assets/Sơ đồ kiến trúc khử sương ảnh.png}
-  % UDPNet: depth-guided dehazing; MB-TaylorFormer: multi-branch efficient Transformer.
+  \includegraphics[width=\textwidth,height=6.05cm,keepaspectratio]{assets/udpnet-paper-en-v10.png}
+  % Source: output/diagrams/udpnet-simple/udpnet-paper-en-v10.png.
+\end{frame}
+
+% 6. User-supplied MB-TaylorFormer V2 diagram, with original proportions.
+\begin{frame}{MB-TaylorFormer V2}
+  \centering
+  \includegraphics[width=\textwidth,height=6.05cm,keepaspectratio]{assets/mb-taylorformer-v2-overview-v8.png}
+  % Source: output/diagrams/mb-taylorformer-v2/mb-taylorformer-v2-overview-v8.png.
 \end{frame}
 
 \section{Problem Statement}
-% 6. Combining strengths, following source page 5.
+% 7. Combining strengths, following source page 5.
 \begin{frame}{Combining Strengths}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.74\textwidth}
@@ -122,7 +129,7 @@
 \end{frame}
 
 \section{Motivation \& Key Insight}
-% 7. Original DWT illustration, including its existing English labels.
+% 8. Original DWT illustration, including its existing English labels.
 \begin{frame}{Frequency-Domain Observation}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.66\textwidth}
@@ -145,7 +152,7 @@
 \end{frame}
 
 \section{Proposed Method}
-% 8. Combined method overview and objectives, without repeated module descriptions.
+% 9. Combined method overview and objectives, without repeated module descriptions.
 \begin{frame}{Overall Design and Objectives}
   \centering
   \input{figures/lightwave-overview.tex}
@@ -160,7 +167,7 @@
 \end{frame}
 
 \section{Evaluation}
-% 9. Dataset split supplied by the user: train / validation / test.
+% 10. Dataset split supplied by the user: train / validation / test.
 \begin{frame}{Dataset}
   {\large\key{SOTS-ITS / RESIDE ITS}}
   \vspace{0.20cm}
@@ -186,7 +193,7 @@
   {\small\color{uetgray}Train and validate on RESIDE ITS; evaluate restoration quality on SOTS Indoor.}
 \end{frame}
 
-% 10. Introduce each metric before presenting the proposed thresholds.
+% 11. Introduce each metric before presenting the proposed thresholds.
 \begin{frame}{Evaluation Metrics}
   \par\vspace{0.14cm}
   {\small\color{uetdark}
@@ -211,7 +218,7 @@
   % FPS is throughput; the measurement setup must be held constant.
 \end{frame}
 
-% 11. Keep proposal targets clearly separate from the source method.
+% 12. Keep proposal targets clearly separate from the source method.
 \begin{frame}{Target}
   {\small\key{Targets on the SOTS dataset}}
   \vspace{0.24cm}
@@ -237,7 +244,7 @@
   % Reference: Preliminary research proposal, pp. 1--2; QSS target supplied by the user.
 \end{frame}
 
-% 12. User-supplied comparison data; ours uses illustrative checkpoint values.
+% 13. User-supplied comparison data; ours uses illustrative checkpoint values.
 % QSS is recomputed from each displayed PSNR/FPS pair with MAX = 255.
 \begin{frame}{Checkpoint Results}
   \vspace{0.12cm}
@@ -271,7 +278,7 @@
 \end{frame}
 
 \section{Next Steps}
-% 13. Planned architecture experiment and corresponding hyperparameter tuning.
+% 14. Planned architecture experiment and corresponding hyperparameter tuning.
 \begin{frame}{Next Steps}
   \begin{block}{1. Experiment with Mamba}
     Replace Attention with Mamba in the low-frequency recovery block (LFRN)
@@ -289,7 +296,7 @@
   \end{block}
 \end{frame}
 
-% 14. Closing slide.
+% 15. Closing slide.
 \begin{frame}[c]
   \centering
   {\fontsize{28pt}{34pt}\selectfont\bfseries\color{uetblue}Thank You\par}
